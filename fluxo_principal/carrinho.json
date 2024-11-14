@@ -1,0 +1,17 @@
+{
+  "user_id": "1",
+  "itens": [
+    {
+      "produto_id": "001",
+      "nome": "item1",
+      "quantidade": 2,
+      "preco_unitario": 10.99
+    },
+    {
+      "produto_id": "002",
+      "nome": "item2",
+      "quantidade": 1,
+      "preco_unitario": 25.50
+    }
+  ]
+}
