@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Endereço e Carrinho</title>
+    <script>
+
+        // Função para visualizar o carrinho
+        function verCarrinho() {
+            fetch("http://localhost:5000/checkout/carrinho?user_id=1")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("carrinho-conteudo").innerHTML = 
+                        `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        // Função para modificar a quantidade de um item no carrinho
+        function modificarQuantidade() {
+            const itemId = document.getElementById("itemId").value;
+            const novaQuantidade = document.getElementById("novaQuantidade").value;
+
+            fetch("http://localhost:5000/checkout/modificar-quantidade", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: 1,
+                    item_id: parseInt(itemId),
+                    quantidade: parseInt(novaQuantidade)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("carrinho-conteudo").innerHTML = 
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function adicionarQuantidade(){
+            
+        }
+
+        // Função para fechar o pedido
+        function fecharPedido() {
+            fetch("http://localhost:5000/checkout/fechar-pedido", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.status);
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Seção de Carrinho de Compras -->
+    <h1>Carrinho de Compras</h1>
+    <button onclick="verCarrinho()">Ver Meu Carrinho</button>
+    <div id="carrinho-conteudo"></div>
+
+    <h2>Modificar Quantidade de Item</h2>
+    <input type="number" id="itemId" placeholder="ID do Item">
+    <span><br><br></span>
+    <button onclick="modificarQuantidade()">-</button>
+    <input type="number" id="novaQuantidade" placeholder="Nova Quantidade">
+    <button onclick="modificarQuantidade()">+</button>
+    <br><br>
+    <button onclick="modificarQuantidade()">Atualizar Quantidade</button>
+
+    <h2>Finalizar Pedido</h2>
+    <button onclick="fecharPedido()">Fechar Pedido</button>
+</body>
+</html>

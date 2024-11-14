@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Endereço e Carrinho</title>
+    <script>
+        // Função para cadastrar um novo endereço
+        function cadastrarEndereco() {
+            const endereco = {
+                rua: document.getElementById("rua").value,
+                numero: document.getElementById("numero").value,
+                cidade: document.getElementById("cidade").value,
+                estado: document.getElementById("estado").value,
+                cep: document.getElementById("cep").value
+            };
+
+            fetch("/novo-endereco", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(endereco)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    alert("Endereço cadastrado com sucesso!");
+                } else {
+                    alert("Erro de Validação: " + data.mensagem);
+                }
+            })
+            .catch(error => console.error("Erro:", error));
+        }
+    </script>
+</head>
+<body>
+    <!-- Seção de Cadastro de Endereço -->
+    <h1>Cadastro de Novo Endereço</h1>
+    <form onsubmit="event.preventDefault(); cadastrarEndereco();">
+        <label for="rua">Rua:</label><br>
+        <input type="text" id="rua" name="rua"><br><br>
+
+        <label for="numero">Número:</label><br>
+        <input type="text" id="numero" name="numero"><br><br>
+
+        <label for="cidade">Cidade:</label><br>
+        <input type="text" id="cidade" name="cidade"><br><br>
+
+        <label for="estado">Estado:</label><br>
+        <input type="text" id="estado" name="estado"><br><br>
+
+        <label for="cep">CEP:</label><br>
+        <input type="text" id="cep" name="cep"><br><br>
+
+        <button type="submit">Cadastrar Endereço</button>
+    </form>
+
+    <hr>
+</body>
+</html>
